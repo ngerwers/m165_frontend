@@ -1,26 +1,45 @@
 @import "tailwindcss";
 
+/* 1. LIGHT MODE (Standard-Werte) */
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0f172a; /* Dunkles Blau-Grau für Text */
+  
+  --primary: #2563eb;    /* Kräftiges Blau */
+  --secondary: #f1f5f9;  /* Helles Grau-Blau für Boxen */
+  --accent: #0ea5e9;     /* Helles Hellblau */
 }
 
+/* 2. DARK MODE (Automatisch aktiv, wenn dein System/Browser auf Dark steht) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0b1120; /* Tiefes Mitternachtsblau */
+    --foreground: #f8fafc; /* Fast Weiß für Text */
+    
+    --primary: #141f80;    /* Leuchtendes Blau */
+    --secondary: #1e293b;  /* Dunkles Blau-Grau für Karten/Boxen */
+    --accent: #38bdf8;     /* Elektrisches Blau */
+  }
+}
+
+/* 3. TAILWIND THEME CONFIGURATION */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  
+  /* Hier machen wir deine Farben für Tailwind verfügbar (z.B. bg-primary, text-accent) */
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+
+  /* Deine Fonts (von Next.js) bleiben erhalten */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* 4. BASIS-STYLING */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
