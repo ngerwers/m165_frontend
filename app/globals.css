@@ -16,8 +16,8 @@
     --background: #0b1120; /* Tiefes Mitternachtsblau */
     --foreground: #f8fafc; /* Fast Weiß für Text */
     
-    --primary: #141f80;    /* Leuchtendes Blau */
-    --secondary: #1e293b;  /* Dunkles Blau-Grau für Karten/Boxen */
+    --primary: #717df1;    /* Leuchtendes Blau */
+    --secondary: #26354d;  /* Dunkles Blau-Grau für Karten/Boxen */
     --accent: #38bdf8;     /* Elektrisches Blau */
   }
 }

@@ -1,19 +1,21 @@
 // src/app/manufacturers/[id]/page.tsx
 import Link from "next/link";
-import { mockManufacturers } from "@/src/lib/mockCars";
-import { mockCars } from "@/src/lib/mockCars";
-
 import { notFound } from "next/navigation";
+
+// Live-Daten aus der API laden mit deinen korrekten Pfaden!
+import { getManufacturerById, getCarsByManufacturer } from "@/src/lib/api";
 import CarCard from "@/src/app/components/carCard";
+import DeleteButton from "@/src/app/components/deleteButton";
 
 export default async function ManufacturerDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   
-  const manufacturer = mockManufacturers.find((m) => m.id === id);
+  // 1. Hersteller aus der echten Datenbank laden
+  const manufacturer = await getManufacturerById(id);
   if (!manufacturer) notFound();
 
-  // Alle Autos suchen, die von dieser Marke sind
-  const brandCars = mockCars.filter((car) => car.manufacturer_id === id);
+  // 2. Alle Autos suchen, die von dieser Marke sind
+  const brandCars = await getCarsByManufacturer(id);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12">
@@ -23,8 +25,26 @@ export default async function ManufacturerDetailPage({ params }: { params: Promi
 
       {/* Info-Box der Marke */}
       <div className="mb-12 rounded-3xl border border-gray-500/20 bg-secondary p-8 shadow-xl">
-        <h1 className="mb-2 text-5xl font-extrabold text-foreground">{manufacturer.name}</h1>
-        <p className="mb-8 text-xl text-gray-400">{manufacturer.country}</p>
+        
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between">
+          <div>
+            <h1 className="mb-2 text-5xl font-extrabold text-foreground">{manufacturer.name}</h1>
+            <p className="mb-8 text-xl text-gray-400">{manufacturer.country}</p>
+          </div>
+
+          {/* ECHTE CRUD Buttons (Bearbeiten / Löschen) */}
+          <div className="mb-8 flex gap-4 md:mb-0">
+            <Link 
+              href={`/manufacturers/${manufacturer.id}/edit`} 
+              className="rounded-lg bg-blue-600 px-6 py-2 font-medium text-white shadow-md transition-colors hover:-translate-y-0.5 hover:bg-blue-500 hover:shadow-lg"
+            >
+              Bearbeiten
+            </Link>
+            
+            {/* Unser interaktiver Client-Button */}
+            <DeleteButton id={manufacturer.id} type="manufacturer" />
+          </div>
+        </div>
         
         <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
           <div className="flex flex-col border-l-2 border-accent pl-4">
@@ -42,7 +62,7 @@ export default async function ManufacturerDetailPage({ params }: { params: Promi
           <div className="flex flex-col border-l-2 border-accent pl-4">
             <span className="text-sm text-gray-400">Mitarbeiter</span>
             <span className="font-semibold text-foreground">
-              {new Intl.NumberFormat('de-DE').format(manufacturer.employees)}
+              {manufacturer.employees ? new Intl.NumberFormat('de-DE').format(manufacturer.employees) : "N/A"}
             </span>
           </div>
         </div>
@@ -51,9 +71,11 @@ export default async function ManufacturerDetailPage({ params }: { params: Promi
       {/* Liste der Autos dieser Marke */}
       <h2 className="mb-6 text-3xl font-bold text-foreground">Fahrzeuge von {manufacturer.name}</h2>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {brandCars.map((car) => (
-          <CarCard key={car.id} car={car} />
-        ))}
+        {brandCars.length > 0 ? (
+          brandCars.map((car: any) => <CarCard key={car.id} car={car} />)
+        ) : (
+          <p className="text-gray-400">Keine Fahrzeuge von diesem Hersteller gefunden.</p>
+        )}
       </div>
     </div>
   );

@@ -8,13 +8,14 @@ function formatMongoDoc(doc: any) {
   return {
     ...doc,
     id: doc._id,
-    // Falls relationale Daten dabei sind, passen wir die IDs auch direkt an
     manufacturer_id: doc.manufacturer?._id || doc.manufacturer_id,
     engine_id: doc.engine?._id || doc.engine_id,
   };
 }
 
-// --- AUTOS ---
+// ==========================================
+// 🚗 AUTOS (CAR MODELS)
+// ==========================================
 
 export async function getAllCars() {
   try {
@@ -50,7 +51,35 @@ export async function getCarById(id: string) {
   }
 }
 
-// --- HERSTELLER (MANUFACTURERS) ---
+export async function createCar(data: any) {
+  const res = await fetch(`${API_URL}/car_models`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  return res.json();
+}
+
+export async function updateCar(id: string, data: any) {
+  const res = await fetch(`${API_URL}/car_models/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  return res.json();
+}
+
+export async function deleteCar(id: string) {
+  const res = await fetch(`${API_URL}/car_models/${id}`, {
+    method: "DELETE",
+  });
+  return res.json();
+}
+
+
+// ==========================================
+// 🏢 HERSTELLER (MANUFACTURERS)
+// ==========================================
 
 export async function getAllManufacturers() {
   try {
@@ -60,20 +89,6 @@ export async function getAllManufacturers() {
     return data.map(formatMongoDoc);
   } catch (error) {
     console.error("Fehler beim Laden der Hersteller:", error);
-    return [];
-  }
-}
-
-// --- MOTOREN (ENGINES) ---
-
-export async function getAllEngines() {
-  try {
-    const res = await fetch(`${API_URL}/engines`, { cache: 'no-store' });
-    if (!res.ok) throw new Error("Netzwerkfehler");
-    const data = await res.json();
-    return data.map(formatMongoDoc);
-  } catch (error) {
-    console.error("Fehler beim Laden der Motoren:", error);
     return [];
   }
 }
@@ -90,9 +105,51 @@ export async function getManufacturerById(id: string) {
   }
 }
 
+export async function createManufacturer(data: any) {
+  const res = await fetch(`${API_URL}/manufacturers`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  return res.json();
+}
+
+export async function updateManufacturer(id: string, data: any) {
+  const res = await fetch(`${API_URL}/manufacturers/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  return res.json();
+}
+
+export async function deleteManufacturer(id: string) {
+  const res = await fetch(`${API_URL}/manufacturers/${id}`, {
+    method: "DELETE",
+  });
+  return res.json();
+}
+
 export async function getCarsByManufacturer(manufacturerId: string) {
   const allCars = await getAllCars();
   return allCars.filter((car: any) => car.manufacturer_id === manufacturerId);
+}
+
+
+// ==========================================
+// ⚙️ MOTOREN (ENGINES)
+// ==========================================
+
+export async function getAllEngines() {
+  try {
+    const res = await fetch(`${API_URL}/engines`, { cache: 'no-store' });
+    if (!res.ok) throw new Error("Netzwerkfehler");
+    const data = await res.json();
+    return data.map(formatMongoDoc);
+  } catch (error) {
+    console.error("Fehler beim Laden der Motoren:", error);
+    return [];
+  }
 }
 
 export async function getEngineById(id: string) {
@@ -105,6 +162,31 @@ export async function getEngineById(id: string) {
     console.error(`Fehler beim Laden von Motor ${id}:`, error);
     return null;
   }
+}
+
+export async function createEngine(data: any) {
+  const res = await fetch(`${API_URL}/engines`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  return res.json();
+}
+
+export async function updateEngine(id: string, data: any) {
+  const res = await fetch(`${API_URL}/engines/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  return res.json();
+}
+
+export async function deleteEngine(id: string) {
+  const res = await fetch(`${API_URL}/engines/${id}`, {
+    method: "DELETE",
+  });
+  return res.json();
 }
 
 export async function getCarsByEngine(engineId: string) {
