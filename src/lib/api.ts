@@ -77,3 +77,37 @@ export async function getAllEngines() {
     return [];
   }
 }
+
+export async function getManufacturerById(id: string) {
+  try {
+    const res = await fetch(`${API_URL}/manufacturers/${id}`, { cache: 'no-store' });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return formatMongoDoc(data);
+  } catch (error) {
+    console.error(`Fehler beim Laden von Hersteller ${id}:`, error);
+    return null;
+  }
+}
+
+export async function getCarsByManufacturer(manufacturerId: string) {
+  const allCars = await getAllCars();
+  return allCars.filter((car: any) => car.manufacturer_id === manufacturerId);
+}
+
+export async function getEngineById(id: string) {
+  try {
+    const res = await fetch(`${API_URL}/engines/${id}`, { cache: 'no-store' });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return formatMongoDoc(data);
+  } catch (error) {
+    console.error(`Fehler beim Laden von Motor ${id}:`, error);
+    return null;
+  }
+}
+
+export async function getCarsByEngine(engineId: string) {
+  const allCars = await getAllCars();
+  return allCars.filter((car: any) => car.engine_id === engineId);
+}
