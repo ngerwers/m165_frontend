@@ -1,8 +1,6 @@
-// src/app/manufacturers/[id]/page.tsx
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-// Live-Daten aus der API laden mit deinen korrekten Pfaden!
 import { getManufacturerById, getCarsByManufacturer } from "@/src/lib/api";
 import CarCard from "@/src/app/components/carCard";
 import DeleteButton from "@/src/app/components/deleteButton";
@@ -10,11 +8,9 @@ import DeleteButton from "@/src/app/components/deleteButton";
 export default async function ManufacturerDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   
-  // 1. Hersteller aus der echten Datenbank laden
   const manufacturer = await getManufacturerById(id);
   if (!manufacturer) notFound();
 
-  // 2. Alle Autos suchen, die von dieser Marke sind
   const brandCars = await getCarsByManufacturer(id);
 
   return (
@@ -23,7 +19,6 @@ export default async function ManufacturerDetailPage({ params }: { params: Promi
         &larr; Zurück zur Startseite
       </Link>
 
-      {/* Info-Box der Marke */}
       <div className="mb-12 rounded-3xl border border-gray-500/20 bg-secondary p-8 shadow-xl">
         
         <div className="flex flex-col md:flex-row md:items-start md:justify-between">
@@ -32,7 +27,6 @@ export default async function ManufacturerDetailPage({ params }: { params: Promi
             <p className="mb-8 text-xl text-gray-400">{manufacturer.country}</p>
           </div>
 
-          {/* ECHTE CRUD Buttons (Bearbeiten / Löschen) */}
           <div className="mb-8 flex gap-4 md:mb-0">
             <Link 
               href={`/manufacturers/${manufacturer.id}/edit`} 
@@ -41,7 +35,6 @@ export default async function ManufacturerDetailPage({ params }: { params: Promi
               Bearbeiten
             </Link>
             
-            {/* Unser interaktiver Client-Button */}
             <DeleteButton id={manufacturer.id} type="manufacturer" />
           </div>
         </div>
@@ -68,7 +61,6 @@ export default async function ManufacturerDetailPage({ params }: { params: Promi
         </div>
       </div>
 
-      {/* Liste der Autos dieser Marke */}
       <h2 className="mb-6 text-3xl font-bold text-foreground">Fahrzeuge von {manufacturer.name}</h2>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {brandCars.length > 0 ? (

@@ -1,4 +1,3 @@
-// src/app/engines/[id]/page.tsx
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getEngineById, getAllCars } from "@/src/lib/api";
@@ -29,7 +28,6 @@ export default async function EngineDetailPage({ params }: { params: Promise<{ i
           </div>
         </div>
         
-        {/* Neues, erweitertes Grid für ALLE Motor-Daten */}
         <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
           <div className="flex flex-col border-l-2 border-primary pl-4">
             <span className="text-sm text-gray-400">Typ</span>
@@ -48,7 +46,6 @@ export default async function EngineDetailPage({ params }: { params: Promise<{ i
             <span className="font-semibold text-foreground">{engine.weight_kg} kg</span>
           </div>
 
-          {/* Bedingte Felder für Verbrenner (ICE) */}
           {engine.cylinders && (
             <div className="flex flex-col border-l-2 border-accent pl-4">
               <span className="text-sm text-gray-400">Zylinder</span>
@@ -62,7 +59,6 @@ export default async function EngineDetailPage({ params }: { params: Promise<{ i
             </div>
           )}
 
-          {/* Bedingte Felder für Elektro (EV) */}
           {engine.battery_kwh && (
             <div className="flex flex-col border-l-2 border-accent pl-4">
               <span className="text-sm text-gray-400">Batterie</span>

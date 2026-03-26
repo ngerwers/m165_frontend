@@ -1,4 +1,3 @@
-// src/app/cars/[id]/edit/page.tsx
 "use client";
 
 import Link from "next/link";
@@ -22,7 +21,6 @@ export default function EditCarPage() {
     manufacturer_id: "", engine_id: ""
   });
 
-  // Lädt die aktuellen Auto-Daten und die Dropdowns, wenn die Seite geöffnet wird
   useEffect(() => {
     async function loadData() {
       if (!id) return;
@@ -63,7 +61,7 @@ export default function EditCarPage() {
       };
 
       await updateCar(id, dataToSubmit);
-      router.push(`/cars/${id}`); // Zurück zur Detailseite des Autos
+      router.push(`/cars/${id}`); 
       router.refresh();
     } catch (error) {
       console.error("Fehler beim Update:", error);

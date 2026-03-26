@@ -1,4 +1,3 @@
-// src/app/cars/new/page.tsx
 "use client";
 
 import Link from "next/link";
@@ -10,26 +9,23 @@ export default function NewCarPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   
-  // States für unsere Dropdown-Daten aus der Datenbank
   const [manufacturers, setManufacturers] = useState<any[]>([]);
   const [engines, setEngines] = useState<any[]>([]);
 
-  // State für die Eingabefelder des Autos
   const [formData, setFormData] = useState({
     model: "",
     cat: "",
     year: "",
     price: "",
-    drive: "RWD", // Standardwert für Antrieb
+    drive: "RWD",
     top_speed_kmh: "",
     weight_kg: "",
     seats: "",
-    colorInput: "", // Ein einzelnes Textfeld für Farben (komma-getrennt)
+    colorInput: "", 
     manufacturer_id: "",
     engine_id: ""
   });
 
-  // useEffect lädt die Marken und Motoren beim Öffnen der Seite
   useEffect(() => {
     async function loadDropdownData() {
       const loadedManufacturers = await getAllManufacturers();
@@ -40,20 +36,17 @@ export default function NewCarPage() {
     loadDropdownData();
   }, []);
 
-  // Funktion zum Speichern des neuen Autos
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      // 1. Die Farben aus dem Textfeld in ein Array verwandeln
-      // Wenn der User "Rot, Blau" eintippt, wird daraus ["Rot", "Blau"]
+     
       const colorsArray = formData.colorInput
         .split(",")
         .map(color => color.trim())
         .filter(color => color !== "");
 
-      // 2. Das Objekt so bauen, wie das Python Backend es erwartet!
       const dataToSubmit = {
         model: formData.model,
         cat: formData.cat,
@@ -70,7 +63,6 @@ export default function NewCarPage() {
         engine_id: formData.engine_id
       };
 
-      // 3. An die API schicken
       await createCar(dataToSubmit);
       
       router.push("/");
@@ -94,7 +86,6 @@ export default function NewCarPage() {
 
         <form onSubmit={handleSubmit} className="space-y-8">
           
-          {/* Basis-Daten */}
           <div>
             <h2 className="mb-4 text-xl font-bold text-primary">Basis-Daten</h2>
             <div className="grid gap-6 md:grid-cols-2">
@@ -119,7 +110,6 @@ export default function NewCarPage() {
 
           <hr className="border-gray-500/20" />
 
-          {/* Spezifikationen (Die in MongoDB als eigenes Objekt "specs" gespeichert werden) */}
           <div>
             <h2 className="mb-4 text-xl font-bold text-primary">Spezifikationen & Farben</h2>
             <div className="grid gap-6 md:grid-cols-2">
@@ -152,12 +142,10 @@ export default function NewCarPage() {
 
           <hr className="border-gray-500/20" />
 
-          {/* Relationen: Marke & Motor auswählen */}
           <div>
             <h2 className="mb-4 text-xl font-bold text-primary">Verknüpfungen</h2>
             <div className="grid gap-8 md:grid-cols-2">
               
-              {/* Hersteller Dropdown */}
               <div className="flex flex-col">
                 <div className="mb-2 flex items-center justify-between">
                   <label className="text-sm font-semibold text-gray-400">Hersteller</label>
@@ -165,7 +153,6 @@ export default function NewCarPage() {
                     + Neu erstellen
                   </Link>
                 </div>
-                {/* Hier laden wir die echten Marken aus der MongoDB */}
                 <select required value={formData.manufacturer_id} onChange={e => setFormData({...formData, manufacturer_id: e.target.value})} className="rounded-lg border border-gray-500/30 bg-background p-3 text-foreground outline-none focus:border-primary">
                   <option value="" disabled>Bitte wählen...</option>
                   {manufacturers.map((m) => (
@@ -174,7 +161,6 @@ export default function NewCarPage() {
                 </select>
               </div>
 
-              {/* Motor Dropdown */}
               <div className="flex flex-col">
                 <div className="mb-2 flex items-center justify-between">
                   <label className="text-sm font-semibold text-gray-400">Motor</label>
@@ -182,7 +168,6 @@ export default function NewCarPage() {
                     + Neu erstellen
                   </Link>
                 </div>
-                {/* Hier laden wir die echten Motoren aus der MongoDB */}
                 <select required value={formData.engine_id} onChange={e => setFormData({...formData, engine_id: e.target.value})} className="rounded-lg border border-gray-500/30 bg-background p-3 text-foreground outline-none focus:border-primary">
                   <option value="" disabled>Bitte wählen...</option>
                   {engines.map((e) => (
@@ -193,7 +178,6 @@ export default function NewCarPage() {
             </div>
           </div>
 
-          {/* Speichern Button */}
           <div className="mt-8 flex justify-end">
             <button disabled={isLoading} type="submit" className="rounded-xl bg-primary px-8 py-3 font-bold text-white shadow-lg transition-all hover:bg-blue-600 hover:shadow-primary/30 disabled:opacity-50">
               {isLoading ? "Speichert..." : "Auto Speichern"}

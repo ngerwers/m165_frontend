@@ -1,10 +1,8 @@
-// src/app/page.tsx
 import Link from "next/link";
 import CarCard from "../src/app/components/carCard";
 import { getAllCars } from "@/src/lib/api"; 
 
 export default async function Page() {
-  // Ein einziger, sauberer Aufruf!
   const liveCars = await getAllCars();
 
   return (

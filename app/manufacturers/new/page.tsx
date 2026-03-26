@@ -1,4 +1,3 @@
-// src/app/manufacturers/new/page.tsx
 "use client";
 
 import Link from "next/link";
@@ -10,7 +9,6 @@ export default function NewManufacturerPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  // Unser State für die Formulardaten
   const [formData, setFormData] = useState({
     name: "",
     country: "",
@@ -22,13 +20,11 @@ export default function NewManufacturerPage() {
     web: ""
   });
 
-  // Funktion zum Speichern in der Datenbank
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); // Verhindert, dass die Seite neu lädt
+    e.preventDefault(); 
     setIsLoading(true);
 
     try {
-      // Wir wandeln Zahlen (wie Gründungsjahr und Mitarbeiter) um, da das Backend das erwartet
       const dataToSubmit = {
         ...formData,
         founded: Number(formData.founded),
@@ -37,7 +33,6 @@ export default function NewManufacturerPage() {
 
       await createManufacturer(dataToSubmit);
       
-      // Zurück zur Startseite und Daten neu laden
       router.push("/");
       router.refresh();
     } catch (error) {

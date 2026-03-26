@@ -1,4 +1,3 @@
-// src/app/engines/new/page.tsx
 "use client";
 
 import Link from "next/link";
@@ -12,12 +11,12 @@ export default function NewEnginePage() {
 
   const [formData, setFormData] = useState({
     code: "",
-    type: "ICE", // Standardmäßig Verbrenner
+    type: "ICE", 
     hp: "",
     nm: "",
     weight_kg: "",
-    fuel: "Benzin", // Optional für Verbrenner
-    cylinders: "", // Optional für Verbrenner
+    fuel: "Benzin", 
+    cylinders: "",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -25,7 +24,6 @@ export default function NewEnginePage() {
     setIsLoading(true);
 
     try {
-      // Zahlen umwandeln für die Datenbank
       const dataToSubmit: any = {
         code: formData.code,
         type: formData.type,
@@ -34,7 +32,6 @@ export default function NewEnginePage() {
         weight_kg: Number(formData.weight_kg),
       };
 
-      // Nur mitschicken, wenn es auch eingegeben wurde
       if (formData.fuel) dataToSubmit.fuel = formData.fuel;
       if (formData.cylinders) dataToSubmit.cylinders = Number(formData.cylinders);
 

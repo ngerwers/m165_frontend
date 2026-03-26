@@ -1,8 +1,6 @@
-// src/lib/api.ts
 
 const API_URL = "http://127.0.0.1:5000";
 
-// Hilfsfunktion: Wandelt die MongoDB _id in id um
 function formatMongoDoc(doc: any) {
   if (!doc) return null;
   return {
@@ -12,10 +10,6 @@ function formatMongoDoc(doc: any) {
     engine_id: doc.engine?._id || doc.engine_id,
   };
 }
-
-// ==========================================
-// 🚗 AUTOS (CAR MODELS)
-// ==========================================
 
 export async function getAllCars() {
   try {
@@ -77,10 +71,6 @@ export async function deleteCar(id: string) {
 }
 
 
-// ==========================================
-// 🏢 HERSTELLER (MANUFACTURERS)
-// ==========================================
-
 export async function getAllManufacturers() {
   try {
     const res = await fetch(`${API_URL}/manufacturers`, { cache: 'no-store' });
@@ -134,11 +124,6 @@ export async function getCarsByManufacturer(manufacturerId: string) {
   const allCars = await getAllCars();
   return allCars.filter((car: any) => car.manufacturer_id === manufacturerId);
 }
-
-
-// ==========================================
-// ⚙️ MOTOREN (ENGINES)
-// ==========================================
 
 export async function getAllEngines() {
   try {

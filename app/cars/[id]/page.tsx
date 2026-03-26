@@ -1,4 +1,3 @@
-// src/app/cars/[id]/page.tsx
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCarById } from "@/src/lib/api";
@@ -18,7 +17,6 @@ export default async function CarDetailPage({ params }: { params: Promise<{ id: 
 
       <div className="overflow-hidden rounded-3xl border border-gray-500/20 bg-secondary shadow-2xl">
         
-        {/* Header-Bereich */}
         <div className="bg-gradient-to-br from-gray-900 to-secondary p-12 text-center md:text-left">
           <Link href={`/manufacturers/${car.manufacturer_id}`} className="text-xl font-bold uppercase tracking-widest text-accent hover:underline">
             {car.manufacturer}
@@ -32,7 +30,6 @@ export default async function CarDetailPage({ params }: { params: Promise<{ id: 
           </div>
         </div>
 
-        {/* CRUD Buttons */}
         <div className="flex justify-end gap-4 border-b border-gray-500/20 bg-background/50 px-8 py-4">
           <Link href={`/cars/${car.id}/edit`} className="rounded-lg bg-blue-600 px-6 py-2 font-medium text-white shadow-md transition-colors hover:-translate-y-0.5 hover:bg-blue-500 hover:shadow-lg">
             Bearbeiten
@@ -40,10 +37,8 @@ export default async function CarDetailPage({ params }: { params: Promise<{ id: 
           <DeleteButton id={car.id} type="car" />
         </div>
 
-        {/* Daten-Grid */}
         <div className="grid gap-8 p-8 md:grid-cols-2">
           
-          {/* Box 1: Fahrzeugdaten */}
           <div className="rounded-xl bg-background p-6 shadow-inner border border-gray-500/10">
             <h2 className="mb-4 text-2xl font-bold text-primary">Fahrzeugdaten</h2>
             <ul className="space-y-3 text-foreground">
@@ -53,7 +48,6 @@ export default async function CarDetailPage({ params }: { params: Promise<{ id: 
               <li className="flex justify-between border-b border-gray-500/10 pb-2"><span className="text-gray-400">Gewicht:</span> <span className="font-semibold">{car.specs?.weight_kg ? `${car.specs.weight_kg} kg` : "N/A"}</span></li>
               <li className="flex justify-between border-b border-gray-500/10 pb-2"><span className="text-gray-400">Sitze:</span> <span className="font-semibold">{car.specs?.seats || "N/A"}</span></li>
               
-              {/* NEU: Optionale Fahrzeugdaten (z.B. Reichweite bei EVs) */}
               {car.specs?.range_km && (
                 <li className="flex justify-between pb-2 text-accent">
                   <span>Elektr. Reichweite:</span> 
@@ -63,7 +57,6 @@ export default async function CarDetailPage({ params }: { params: Promise<{ id: 
             </ul>
           </div>
 
-          {/* Box 2: Motor & Leistung */}
           <div className="space-y-8">
             <div className="rounded-xl bg-background p-6 shadow-inner border border-gray-500/10">
               <h2 className="mb-4 text-2xl font-bold text-primary">
@@ -76,7 +69,6 @@ export default async function CarDetailPage({ params }: { params: Promise<{ id: 
                 <li className="flex justify-between border-b border-gray-500/10 pb-2"><span className="text-gray-400">Leistung:</span> <span className="font-semibold">{car.engine?.hp} PS</span></li>
                 <li className="flex justify-between border-b border-gray-500/10 pb-2"><span className="text-gray-400">Drehmoment:</span> <span className="font-semibold">{car.engine?.nm} Nm</span></li>
                 
-                {/* NEU: Optionale ICE-Daten (Verbrenner) */}
                 {car.engine?.cylinders && (
                   <li className="flex justify-between border-b border-gray-500/10 pb-2"><span className="text-gray-400">Zylinder:</span> <span className="font-semibold">{car.engine.cylinders}</span></li>
                 )}
@@ -84,7 +76,6 @@ export default async function CarDetailPage({ params }: { params: Promise<{ id: 
                   <li className="flex justify-between border-b border-gray-500/10 pb-2"><span className="text-gray-400">Hubraum:</span> <span className="font-semibold">{car.engine.displacement_ccm} ccm</span></li>
                 )}
 
-                {/* NEU: Optionale EV-Daten (Elektro) */}
                 {car.engine?.battery_kwh && (
                   <li className="flex justify-between border-b border-gray-500/10 pb-2"><span className="text-gray-400">Batterie:</span> <span className="font-semibold text-accent">{car.engine.battery_kwh} kWh</span></li>
                 )}
@@ -97,7 +88,6 @@ export default async function CarDetailPage({ params }: { params: Promise<{ id: 
               </ul>
             </div>
 
-            {/* Farben */}
             <div className="rounded-xl bg-background p-6 shadow-inner border border-gray-500/10">
               <h2 className="mb-3 text-xl font-bold text-primary">Verfügbare Farben</h2>
               <div className="flex flex-wrap gap-2">

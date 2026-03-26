@@ -1,4 +1,3 @@
-// src/components/carCard.tsx
 import Link from "next/link";
 
 interface CarProps {
@@ -19,7 +18,6 @@ export default function CarCard({ car }: CarProps) {
   return (
     <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-gray-500/10 bg-secondary p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/20">
       
-      {/* Header-Bereich der Card */}
       <div className="mb-4 flex items-center justify-between">
         <Link 
           href={`/manufacturers/${car.manufacturer_id}`} 
@@ -32,14 +30,12 @@ export default function CarCard({ car }: CarProps) {
         </span>
       </div>
 
-      {/* Auto-Titel als Hauptlink */}
       <Link href={`/cars/${car.id}`}>
         <h2 className="mb-2 text-2xl font-bold text-foreground transition-colors hover:text-primary">
           {car.model}
         </h2>
       </Link>
 
-      {/* Motor-Link */}
       <Link 
         href={`/engines/${car.engine_id}`}
         className="mb-6 inline-block text-sm text-gray-400 transition-colors hover:text-accent hover:underline"
@@ -47,7 +43,6 @@ export default function CarCard({ car }: CarProps) {
         Motor: {car.engine.code} ({car.engine.hp} PS)
       </Link>
       
-      {/* Footer der Card */}
       <div className="mt-auto flex items-center justify-between border-t border-gray-500/20 pt-4">
         <span className="text-lg font-bold text-foreground">
           {new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(car.price)}

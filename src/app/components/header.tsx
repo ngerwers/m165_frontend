@@ -5,12 +5,10 @@ export default function Header() {
     <header className="sticky top-4 z-50 mx-auto w-[96%] max-w-7xl rounded-full border border-gray-500/20 bg-secondary/90 px-6 py-4 shadow-lg backdrop-blur-md">      
       <nav className="flex items-center justify-between">
         
-        {/* 1. Logo Bereich (Links) */}
         <div className="text-2xl font-bold text-primary">
           <Link href="/">Cars</Link>
         </div>
 
-        {/* 3. Action Buttons / Erstellen (Rechts) */}
         <div className="flex items-center gap-3">
           <Link 
             href="/cars/new" 
